@@ -1,13 +1,12 @@
-import { Header } from "../Header/header";
+import { Footer } from "../footer/footer";
+import { Header } from "../header/header";
 
-export const Layout = ({ children, sideBar }) => {
+export const Layout = ({ children }) => {
   return (
     <div>
-      <meta name='description' content='react app' />
       <Header />
-      {sideBar}
-      <section>{children}</section>
-      <footer>footer</footer>
+      {children}
+      <Footer />
     </div>
   );
 };
