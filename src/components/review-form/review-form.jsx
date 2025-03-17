@@ -1,55 +1,55 @@
-import { useReducer, useState } from "react";
-
-const DEFAULT_FROM_VALUE = {
-  name: "",
-  text: "",
-  address: "",
-  nameError: "",
-};
-
-const SET_NAME_ACTION = "SET_NAME_ACTION";
-const SET_ADDRESS_ACTION = "SET_ADDRESS_ACTION";
-const SET_TEXT_ACTION = "SET_TEXT_ACTION";
-
-const reducer = (state, { type, payload }) => {
-  switch (type) {
-    case SET_NAME_ACTION:
-      ValidityState(name);
-      return { ...DEFAULT_FROM_VALUE, name: payload };
-    case SET_ADDRESS_ACTION:
-      return { ...state, address: payload };
-    case SET_TEXT_ACTION:
-      return { ...state, text: payload };
-    default:
-      return state;
-  }
-};
+import { Counter } from "../counter/counter";
+import { useForm } from "./use-form";
 
 export const ReviewForm = () => {
-  const [form, dispatch] = useReducer(reducer, DEFAULT_FROM_VALUE);
+  const {
+    form,
+    setAddress,
+    setName,
+    setText,
+    incrementRating,
+    decrementRating,
+    clear,
+  } = useForm();
 
-  const { name, address, text, nameError } = form;
-
-  const setName = (name) => dispatch({ type: SET_NAME_ACTION, payload: name });
-  const setAddress = (address) =>
-    dispatch({ type: SET_ADDRESS_ACTION, payload: address });
-  const setText = (text) => dispatch({ type: SET_TEXT_ACTION, payload: text });
+  const { name, address, text, rating } = form;
 
   return (
-    <div>
+    <form onSubmit={(e) => e.preventDefault()}>
       <div>
-        <span>name</span>
-        <input value={name} onChange={(e) => setName(e.target.value)} />
-        {nameError && <div>error</div>}
+        <span>Name</span>
+        <input
+          type='text'
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+        />
       </div>
+
       <div>
-        <span>address</span>
-        <input value={address} onChange={(e) => setAddress(e.target.value)} />
+        <span>Text</span>
+        <input
+          type='text'
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+        />
       </div>
+
       <div>
-        <span>text</span>
-        <input value={text} onChange={(e) => setText(e.target.value)} />
+        <span>Address</span>
+        <input
+          type='text'
+          value={address}
+          onChange={(event) => setAddress(event.target.value)}
+        />
       </div>
-    </div>
+
+      <Counter
+        value={rating}
+        decrement={decrementRating}
+        increment={incrementRating}
+      />
+
+      <button onClick={clear}>clear</button>
+    </form>
   );
 };

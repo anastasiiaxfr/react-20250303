@@ -1,8 +1,4 @@
-import { useCount } from "./use-counter";
-
-export const Counter = () => {
-  const { value, increment, decrement } = useCount();
-
+export const Counter = ({ value, increment, decrement }) => {
   return (
     <div>
       <button onClick={increment}>+</button>

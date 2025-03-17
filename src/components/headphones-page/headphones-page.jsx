@@ -31,11 +31,11 @@ export const HeadphonesPage = ({ title }) => {
 
       {activeHeadphone && (
         <Headphone
-          key={activeHeadphoneId}
           name={activeHeadphone.name}
           brand={activeHeadphone.brand}
           reviews={activeHeadphone.reviews}
           codecs={activeHeadphone.codecs}
+          key={activeHeadphone.id}
         />
       )}
     </div>
