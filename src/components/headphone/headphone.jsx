@@ -3,13 +3,13 @@ import { HeadphoneCounter } from "../headphone-counter/headphone-counter";
 import { ReviewForm } from "../review-form/review-form";
 import { Reviews } from "../reviews/reviews";
 
-export const Headphone = ({ name, brand, reviews, codecs }) => {
+export const Headphone = ({ name, brand, reviews, codecs, ref }) => {
   if (!name) {
     return null;
   }
 
   return (
-    <section>
+    <section ref={ref}>
       <h2>{name}</h2>
       <h3>Brand</h3>
       <div>{brand}</div>

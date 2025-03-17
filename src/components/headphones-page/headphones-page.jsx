@@ -1,4 +1,12 @@
-import { useState } from "react";
+import {
+  useState,
+  useMemo,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useEffect,
+  memo,
+} from "react";
 import { headphones } from "../../constants/mock";
 import { Headphone } from "../headphone/headphone";
 import { Tab } from "../tab/tab";
@@ -8,6 +16,11 @@ export const HeadphonesPage = ({ title }) => {
 
   const activeHeadphone = headphones.find(({ id }) => id === activeHeadphoneId);
 
+  const tabs = useMemo(
+    () => headphones.map(({ id, name }) => ({ id, name })),
+    []
+  );
+
   const handleSetActiveHeadphoneId = (id) => {
     if (activeHeadphoneId === id) {
       return;
@@ -16,8 +29,18 @@ export const HeadphonesPage = ({ title }) => {
     setActiveHeadphoneId(id);
   };
 
+  const rootRef = useRef(null);
+  console.log(rootRef);
+
+  const headphoneRef = useRef(null);
+  console.log(headphoneRef.current);
+
+  useEffect(() => {
+    console.log(rootRef.current.offsetWidth);
+  }, []);
+
   return (
-    <div>
+    <div ref={rootRef}>
       <h1>{title}</h1>
 
       {headphones.map(({ name, id }) => (
@@ -36,6 +59,7 @@ export const HeadphonesPage = ({ title }) => {
           reviews={activeHeadphone.reviews}
           codecs={activeHeadphone.codecs}
           key={activeHeadphone.id}
+          ref={headphoneRef}
         />
       )}
     </div>
