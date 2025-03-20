@@ -7,13 +7,8 @@ export const ProgressBar = () => {
 
   return (
     <div
-      className={styles.progress}
+      className={styles.root}
       style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        height: "5px",
-        backgroundColor: "green",
         width: progress,
       }}
     />
