@@ -1,11 +1,11 @@
 import { Footer } from "../footer/footer";
 import { Header } from "../header/header";
-import { Timer } from "../timer/timer";
+import { ProgressBar } from "../progress-bar/progress-bar";
 
 export const Layout = ({ children }) => {
   return (
     <div>
-      <Timer />
+      <ProgressBar />
       <Header />
       {children}
       <Footer />
