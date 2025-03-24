@@ -1,19 +1,27 @@
 .root {
-    padding: 0;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.size500 {
     font-size: 18px;
+    padding: 8px 16px;
 }
 
-.active {
-    background-color: red;
-    color: black
+.size400 {
+    font-size: 16px;
+    padding: 7px 14px;
 }
 
-.light.default {
-    background-color: green;
-    color: black
+.light {
+    background-color: lightsalmon;
 }
 
-.dark.default {
-    background-color: black;
-    color: white
+.dark {
+    background-color: lightsteelblue;
 }

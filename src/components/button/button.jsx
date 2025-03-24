@@ -4,26 +4,26 @@ import { use } from "react";
 import { ThemeContext } from "../theme-context";
 
 export const Button = ({
-  children,
-  disabled,
+  title,
   onClick,
-  colorViewVariant = "default",
+  disabled,
+  size = "500",
   className,
 }) => {
   const { theme } = use(ThemeContext);
 
   return (
     <button
+      className={classNames(styles.root, className, {
+        [styles.size500]: size === "500",
+        [styles.size400]: size === "400",
+        [styles.dark]: theme === "dark",
+        [styles.light]: theme === "light",
+      })}
       disabled={disabled}
       onClick={onClick}
-      className={classNames(styles.button, className, {
-        [styles.default]: colorViewVariant === "default",
-        [styles.active]: colorViewVariant === "active",
-        [styles.light]: theme === "light",
-        [styles.dark]: theme === "dark",
-      })}
     >
-      {children}
+      {title}
     </button>
   );
 };

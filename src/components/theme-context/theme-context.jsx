@@ -1,20 +1,18 @@
-import { useState } from "react";
-import { ThemeContext as ThemeContextProvider } from ".";
+import { useCallback, useState } from "react";
+import { ThemeContext } from ".";
 
-export const ThemeContext = ({ children }) => {
+export const ThemeContextProvider = ({ children }) => {
   const [theme, setTheme] = useState("light");
 
-  const toggleTheme = () => {
-    if (theme === "dark") {
-      setTheme("light");
-    } else {
-      setTheme("dark");
-    }
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((currentTheme) => {
+      if (currentTheme === "dark") {
+        return "light";
+      } else {
+        return "dark";
+      }
+    });
+  }, []);
 
-  return (
-    <ThemeContextProvider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContextProvider>
-  );
+  return <ThemeContext value={{ theme, toggleTheme }}>{children}</ThemeContext>;
 };

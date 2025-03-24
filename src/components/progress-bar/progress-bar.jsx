@@ -7,7 +7,7 @@ export const ProgressBar = () => {
 
   return (
     <div
-      className={styles.root}
+      className={styles.progress}
       style={{
         width: progress,
       }}

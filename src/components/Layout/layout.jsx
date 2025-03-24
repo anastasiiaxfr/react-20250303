@@ -1,15 +1,15 @@
 import { Footer } from "../footer/footer";
 import { Header } from "../header/header";
 import { ProgressBar } from "../progress-bar/progress-bar";
-import { ToggleTheme } from "../toggle-theme/toggle-theme";
 
-export const Layout = ({ children, sidebar }) => {
+import styles from "./layout.module.css";
+
+export const Layout = ({ children }) => {
   return (
-    <div>
-      <ToggleTheme />
+    <div className={styles.root}>
       <ProgressBar />
       <Header />
-      {children}
+      <main className={styles.main}>{children}</main>
       <Footer />
     </div>
   );
