@@ -1,4 +1,4 @@
-import { HeadphonesPage } from "../headphones-page/headphones-page";
+import { HeadphonesPage } from "../../pages/headphones-page";
 import { Layout } from "../layout/layout";
 
 import "./reset.css";
