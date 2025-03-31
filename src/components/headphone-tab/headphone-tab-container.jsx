@@ -1,9 +1,6 @@
 import { useSelector } from "react-redux";
 import { selectHeadphoneById } from "../../redux/entities/headphones/slice";
-import { NavLink } from "react-router";
-import classNames from "classnames";
-
-import styles from "./headphone-tab.module.css";
+import { TabLink } from "../tab-link/tab-link";
 
 export const HeadphoneTabContainer = ({ id }) => {
   const headhpone = useSelector((state) => selectHeadphoneById(state, id));
@@ -12,12 +9,5 @@ export const HeadphoneTabContainer = ({ id }) => {
     return;
   }
 
-  return (
-    <NavLink
-      to={id}
-      className={({ isActive }) => classNames(isActive && styles.isActive)}
-    >
-      {({ isActive }) => (isActive ? "active" : headhpone.name)}
-    </NavLink>
-  );
+  return <TabLink to={`/headphones/${id}`}>{headhpone.name}</TabLink>;
 };

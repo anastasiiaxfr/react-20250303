@@ -28,7 +28,6 @@ export const { selectAmountByItemId } = cartSlice.selectors;
 export const { addToCart, removeFromCart } = cartSlice.actions;
 
 const selectCartSlice = (state) => state.cart;
-
 export const selectCartItemsIds = createSelector([selectCartSlice], (cart) =>
   Object.keys(cart)
 );

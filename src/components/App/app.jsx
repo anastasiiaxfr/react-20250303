@@ -7,39 +7,34 @@ import { ThemeContextProvider } from "../theme-context/theme-context";
 import { AuthContextProvider } from "../auth-context/auth-context";
 import { Provider } from "react-redux";
 import { store } from "../../redux/store";
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { HomePage } from "../../pages/home-page";
 import { HeadphonePage } from "../../pages/headphone-page";
+import { HeadphoneReviewsPage } from "../../pages/headphone-reviews-page";
+import { HeadphoneCodecsPage } from "../../pages/headphone-codecs-page";
 
 export const App = () => {
   return (
-    <Provider store={store}>
-      <AuthContextProvider>
-        <ThemeContextProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <Provider store={store}>
+        <AuthContextProvider>
+          <ThemeContextProvider>
             <Routes>
               <Route element={<Layout />}>
                 <Route index element={<HomePage />} />
                 <Route path='/headphones' element={<HeadphonesPage />}>
-                  <Route path=':headphoneId' element={<HeadphonePage />} />
+                  <Route index element={<div>Choose headphone</div>} />
+                  <Route path=':headphoneId' element={<HeadphonePage />}>
+                    <Route index element={<Navigate to='reviews' />} />
+                    <Route path='reviews' element={<HeadphoneReviewsPage />} />
+                    <Route path='codecs' element={<HeadphoneCodecsPage />} />
+                  </Route>
                 </Route>
               </Route>
-              <Route
-                path='about'
-                element={
-                  <div>
-                    about - <Outlet />
-                  </div>
-                }
-              >
-                <Route path='*' element={<div>not found about</div>} />
-              </Route>
-              {/* <Route path='*' element={<div>not found</div>} /> */}
-              <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>
-          </BrowserRouter>
-        </ThemeContextProvider>
-      </AuthContextProvider>
-    </Provider>
+          </ThemeContextProvider>
+        </AuthContextProvider>
+      </Provider>
+    </BrowserRouter>
   );
 };
