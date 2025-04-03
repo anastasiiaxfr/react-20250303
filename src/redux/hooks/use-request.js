@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectRequestStatus } from "../entities/request/slice";
+import { selectStatus } from "../entities/request/slice";
 
-export const useRequest = (thunk, ...params) => {
+export const useRequest = (thunk, payload) => {
   const dispatch = useDispatch();
 
-  const [request, setRequest] = useState();
+  const [request, setRequest] = useState(null);
 
   const requestStatus = useSelector((state) =>
-    selectRequestStatus(state, request?.requestId)
+    selectStatus(state, request?.requestId)
   );
 
   useEffect(() => {
-    const request = dispatch(thunk(...params));
+    const request = dispatch(thunk(payload));
     setRequest(request);
 
     return () => {
       request.abort();
       setRequest(null);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, thunk, ...params]);
+  }, [thunk, payload, dispatch]);
 
   return requestStatus;
 };
