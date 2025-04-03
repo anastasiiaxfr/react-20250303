@@ -1,11 +1,28 @@
-import { useSelector } from "react-redux";
-import { selectHeadphoneById } from "../../redux/entities/headphones/slice";
 import { Headphone } from "./headphone";
+import {
+  useAddReviewMutation,
+  useGetHeadphonesQuery,
+} from "../../redux/services/api";
 
 export const HeadphoneContainer = ({ id }) => {
-  const headphone = useSelector((state) => selectHeadphoneById(state, id));
+  const { data, isLoading } = useGetHeadphonesQuery(undefined, {
+    selectFromResult: (result) => ({
+      ...result,
+      data: result.data?.find(({ id: headphoneId }) => headphoneId === id),
+    }),
+  });
 
-  const { name, brand, reviews, codecs } = headphone || {};
+  const { name, brand, reviews, codecs } = data || {};
+
+  const [addReview, { isLoading: isAddReviewLoading }] = useAddReviewMutation();
+
+  const handleSubmit = (review) => {
+    addReview({ headphoneId: id, review });
+  };
+
+  if (isLoading) {
+    return "...loading";
+  }
 
   return (
     <Headphone
@@ -14,6 +31,8 @@ export const HeadphoneContainer = ({ id }) => {
       reviewsIds={reviews}
       codecsIds={codecs}
       id={id}
+      onSubmit={handleSubmit}
+      isSubmitButtonDisabled={isAddReviewLoading}
     />
   );
 };

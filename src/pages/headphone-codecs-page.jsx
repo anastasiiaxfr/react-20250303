@@ -28,7 +28,7 @@ export const HeadphoneCodecsPage = () => {
     return "ERROR";
   }
 
-  return codecs.length ? (
+  return codecs?.length ? (
     <Codecs codecsIds={codecs} />
   ) : (
     <div>empty codecs</div>

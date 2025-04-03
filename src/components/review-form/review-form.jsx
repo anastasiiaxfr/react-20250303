@@ -4,7 +4,7 @@ import { useForm } from "./use-form";
 
 import styles from "./review-form.module.css";
 
-export const ReviewForm = () => {
+export const ReviewForm = ({ onSubmit, isSubmitButtonDisabled }) => {
   const { form, setText, incrementRating, decrementRating, clear } = useForm();
 
   const { text, rating } = form;
@@ -29,6 +29,13 @@ export const ReviewForm = () => {
         />
 
         <Button title='Clear' onClick={clear} />
+        <Button
+          title='Submit'
+          disabled={isSubmitButtonDisabled}
+          onClick={() =>
+            onSubmit({ text, rating, user: "hr83h29h9h9u12h9213" })
+          }
+        />
       </form>
     </>
   );

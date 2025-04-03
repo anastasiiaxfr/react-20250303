@@ -1,34 +1,24 @@
 import { useParams } from "react-router";
-import { selectHeadphoneById } from "../redux/entities/headphones/slice";
-import { useSelector } from "react-redux";
 import { Reviews } from "../components/reviews/reviews";
-import { getUsers } from "../redux/entities/users/get-users";
-import { useRequest } from "../redux/hooks/use-request";
-import { getReviewsByHeadphoneId } from "../redux/entities/reviews/get-reviews-by-headphone-id";
 import {
-  REQUEST_STATUS_PENDING,
-  REQUEST_STATUS_REJECTED,
-} from "../redux/constants";
+  useGetReviewsByHeadphoneIdQuery,
+  useGetUsersQuery,
+} from "../redux/services/api";
 
 export const HeadphoneReviewsPage = () => {
   const { headphoneId } = useParams();
 
-  const usersRequestStatus = useRequest(getUsers);
-  const reviewsRequestStatus = useRequest(getReviewsByHeadphoneId, headphoneId);
+  const { isLoading: isUsersLoading, isError: isUsersError } =
+    useGetUsersQuery();
+  const {
+    isFetching: isReviewsLoading,
+    isError: isReviewsError,
+    data,
+  } = useGetReviewsByHeadphoneIdQuery(headphoneId);
 
-  const isLoading =
-    usersRequestStatus === REQUEST_STATUS_PENDING ||
-    reviewsRequestStatus === REQUEST_STATUS_PENDING;
+  const isLoading = isUsersLoading || isReviewsLoading;
 
-  const isError =
-    usersRequestStatus === REQUEST_STATUS_REJECTED ||
-    reviewsRequestStatus === REQUEST_STATUS_REJECTED;
-
-  const headphone = useSelector((state) =>
-    selectHeadphoneById(state, headphoneId)
-  );
-
-  const { reviews } = headphone || {};
+  const isError = isUsersError || isReviewsError;
 
   if (isLoading) {
     return "loading...";
@@ -38,9 +28,5 @@ export const HeadphoneReviewsPage = () => {
     return "ERROR";
   }
 
-  return reviews.length ? (
-    <Reviews reviewsIds={reviews} />
-  ) : (
-    <div>empty review</div>
-  );
+  return data?.length ? <Reviews reviews={data} /> : <div>empty review</div>;
 };
