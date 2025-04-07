@@ -1,5 +1,6 @@
 import styles from "./counter.module.css";
 import { Button } from "../button/button";
+import { useEffect } from "react";
 
 export const Counter = ({ value, increment, decrement }) => {
   return (

@@ -1,5 +1,5 @@
 import { Outlet, useParams } from "react-router";
-import { HeadphoneContainer } from "../components/headphone/headphone-container";
+import { HeadphoneContainer } from "../headphone/headphone-container";
 
 export const HeadphonePage = () => {
   const { headphoneId } = useParams();
