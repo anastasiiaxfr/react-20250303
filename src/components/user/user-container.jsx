@@ -1,5 +1,5 @@
 import { User } from "./user";
-import { useGetUsersQuery } from "../../redux/services/api";
+import { useGetUsersQuery } from "../../redux/services/api/api";
 
 export const UserContainer = ({ id }) => {
   const { data } = useGetUsersQuery(undefined, {

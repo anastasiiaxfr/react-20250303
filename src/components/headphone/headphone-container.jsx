@@ -1,38 +1,19 @@
 import { Headphone } from "./headphone";
-import {
-  useAddReviewMutation,
-  useGetHeadphonesQuery,
-} from "../../redux/services/api";
+import { useGetHeadphonesQuery } from "../../redux/services/api/api";
 
 export const HeadphoneContainer = ({ id }) => {
-  const { data, isLoading } = useGetHeadphonesQuery(undefined, {
+  const { data: headphone } = useGetHeadphonesQuery(undefined, {
     selectFromResult: (result) => ({
       ...result,
-      data: result.data?.find(({ id: headphoneId }) => headphoneId === id),
+      data: result?.data?.find(({ id: headphoneId }) => headphoneId === id),
     }),
   });
 
-  const { name, brand, reviews, codecs } = data || {};
-
-  const [addReview, { isLoading: isAddReviewLoading }] = useAddReviewMutation();
-
-  const handleSubmit = (review) => {
-    addReview({ headphoneId: id, review });
-  };
-
-  if (isLoading) {
-    return "...loading";
+  if (!headphone) {
+    return null;
   }
 
-  return (
-    <Headphone
-      name={name}
-      brand={brand}
-      reviewsIds={reviews}
-      codecsIds={codecs}
-      id={id}
-      onSubmit={handleSubmit}
-      isSubmitButtonDisabled={isAddReviewLoading}
-    />
-  );
+  const { name, brand } = headphone;
+
+  return <Headphone name={name} brand={brand} id={id} />;
 };

@@ -8,12 +8,12 @@ export const api = createApi({
     getHeadphones: builder.query({
       query: () => "/products",
     }),
-    getUsers: builder.query({
-      query: () => "/users",
+    getHeadphoneById: builder.query({
+      query: (headphoneId) => `/product/${headphoneId}`,
     }),
     getReviewsByHeadphoneId: builder.query({
-      query: (headphoneId) => `/reviews?productId=${headphoneId}`,
-      providesTags: [{ type: "reviews", id: "all" }],
+      query: (headphoneId) => `reviews?productId=${headphoneId}`,
+      providesTags: [{ type: "reviews", id: "ALL" }],
     }),
     addReview: builder.mutation({
       query: ({ headphoneId, review }) => ({
@@ -21,15 +21,22 @@ export const api = createApi({
         body: review,
         method: "POST",
       }),
-      invalidatesTags: [{ type: "reviews", id: "all" }],
+      invalidatesTags: [{ type: "reviews", id: "ALL" }],
+    }),
+    getUsers: builder.query({
+      query: () => "/users",
+    }),
+    getCodecsByHeadphoneId: builder.query({
+      query: (headphoneId) => `/codecs?productId=${headphoneId}`,
     }),
   }),
 });
 
 export const {
   useGetHeadphonesQuery,
-  useLazyGetHeadphonesQuery,
-  useGetUsersQuery,
+  useGetHeadphoneByIdQuery,
   useGetReviewsByHeadphoneIdQuery,
   useAddReviewMutation,
+  useGetUsersQuery,
+  useGetCodecsByHeadphoneIdQuery,
 } = api;
