@@ -4,6 +4,7 @@ import classNames from "classnames";
 import styles from "./button.module.css";
 import { use } from "react";
 import { ThemeContext } from "../theme-context";
+import { useFormStatus } from "react-dom";
 
 export const Button = ({
   title,
@@ -11,8 +12,11 @@ export const Button = ({
   disabled,
   size = "500",
   className,
+  formAction,
 }) => {
   const { theme } = use(ThemeContext);
+
+  const { pending } = useFormStatus();
 
   return (
     <button
@@ -22,8 +26,9 @@ export const Button = ({
         [styles.dark]: theme === "dark",
         [styles.light]: theme === "light",
       })}
-      disabled={disabled}
+      disabled={disabled || pending}
       onClick={onClick}
+      formAction={formAction}
     >
       {title}
     </button>

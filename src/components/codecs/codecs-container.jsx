@@ -1,8 +1,8 @@
-import { getCodecsByHeadphoneId } from "@/services/get-codecs-by-headphone-id";
 import { Codecs } from "./codecs";
+import { use } from "react";
 
-export const CodecsContainer = async ({ headphoneId }) => {
-  const codecs = await getCodecsByHeadphoneId(headphoneId);
+export const CodecsContainer = ({ codecsPromise, headphoneId }) => {
+  const codecs = use(codecsPromise);
 
   if (!codecs.length) {
     return null;

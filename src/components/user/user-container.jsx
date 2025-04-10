@@ -1,13 +1,17 @@
 "use client";
 
+import { use } from "react";
+import { UsersContext } from "../users-context";
 import { User } from "./user";
 
-export const UserContainer = () => {
-  const data = null;
+export const UserContainer = ({ id }) => {
+  const users = use(UsersContext);
 
-  if (!data?.name) {
+  const user = users.find(({ id: userId }) => userId === id);
+
+  if (!user?.name) {
     return null;
   }
 
-  return <User name={data.name} />;
+  return <User name={user.name} />;
 };

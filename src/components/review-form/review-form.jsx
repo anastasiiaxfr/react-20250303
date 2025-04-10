@@ -1,43 +1,71 @@
 "use client";
 
 import { Button } from "../button/button";
-import { Counter } from "../counter/counter";
-import { useForm } from "./use-form";
 
-import styles from "./review-form.module.css";
+import { useActionState, useRef } from "react";
 
-export const ReviewForm = ({ onSubmit, isSubmitButtonDisabled }) => {
-  const { form, setText, incrementRating, decrementRating, clear } = useForm();
+export const ReviewForm = ({ submitFormAction }) => {
+  const ratingRef = useRef();
 
-  const { text, rating } = form;
+  const [formState, submitAction, isPending] = useActionState(
+    submitFormAction,
+    {
+      text: "default text",
+      rating: 5,
+    }
+  );
 
   return (
     <>
       <h3>Review Form</h3>
-      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+      <form action={submitAction}>
+        <h3>Review Form</h3>
+
         <div>
-          <span>Text</span>
+          <label htmlFor='text'>Text</label>
           <input
             type='text'
-            value={text}
-            onChange={(event) => setText(event.target.value)}
+            id='text'
+            name='text'
+            defaultValue={formState.text}
           />
         </div>
 
-        <Counter
-          value={rating}
-          decrement={decrementRating}
-          increment={incrementRating}
-        />
+        {formState.errorMessage && <div>error</div>}
 
-        <Button title='Clear' onClick={clear} />
+        <div>
+          <label htmlFor='rating'>Rating</label>
+          <button
+            type='button'
+            id='decrement-button'
+            onClick={() => ratingRef.current.stepDown()}
+          >
+            -
+          </button>
+          <input
+            type='number'
+            id='rating'
+            name='rating'
+            min={1}
+            max={5}
+            ref={ratingRef}
+            defaultValue={formState.rating}
+          />
+          <button
+            type='button'
+            id='increment-button'
+            onClick={() => ratingRef.current.stepUp()}
+          >
+            +
+          </button>
+        </div>
+
         <Button
-          title='Submit'
-          disabled={isSubmitButtonDisabled}
-          onClick={() =>
-            onSubmit({ text, rating, user: "hr83h29h9h9u12h9213" })
-          }
+          type='submit'
+          formAction={() => submitAction(null)}
+          title='clear'
         />
+        <Button type='submit' title='submit' />
       </form>
     </>
   );
